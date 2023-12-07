@@ -100,19 +100,21 @@ const createAd = (latLocation, lngLocation) => ({
   features: createNoRepeatingArray(FEATURES),
   description: getRandomArrayElement(DESCRIPTIONS),
   photos: createNoRepeatingArray(PHOTOS),
-  location: { lat: latLocation, lng: lngLocation },
 });
 
-const createAdAndLocation = () => {
+const createLocation = (latLocation, lngLocation) => ({
+  location: { lat: latLocation, lng: lngLocation }
+});
+
+const createAdItem = () => {
   latCount = getRandomFloat(LOCATION_LAT);
   lngCount = getRandomFloat(LOCATION_LNG);
-  return createAd(latCount, lngCount);
+  return ({
+    author: { avatar: createAvatar() },
+    offer: createAd(latCount, lngCount),
+    location: createLocation(latCount, lngCount)
+  });
 };
-
-const createAdItem = () => ({
-  author: { avatar: createAvatar() },
-  offer: createAdAndLocation(),
-});
 
 const createArrayOfAdItems = () => Array.from({ length: ADS_COUNT }, createAdItem);
 
