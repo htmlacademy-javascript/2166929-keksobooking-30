@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Екатерина Юрчак](https://up.htmlacademy.ru/javascript/30/user/2166929).
-* Наставник: `Неизвестно`.
+* Студент: [Екатерина Юрчак](https://htmlacademy.ru/profile/neonin).
+* Наставник: [Ольга Ветер](https://htmlacademy.ru/profile/id73199).
 
 ---
 
