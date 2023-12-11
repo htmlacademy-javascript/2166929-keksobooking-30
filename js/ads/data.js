@@ -103,7 +103,8 @@ const createAd = (latLocation, lngLocation) => ({
 });
 
 const createLocation = (latLocation, lngLocation) => ({
-  location: { lat: latLocation, lng: lngLocation }
+  lat: latLocation,
+  lng: lngLocation
 });
 
 const createAdItem = () => {

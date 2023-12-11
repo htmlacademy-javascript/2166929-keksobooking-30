@@ -1,3 +1,8 @@
-import { createArrayOfAdItems } from './ads/data.js';
+import { createAds } from './ads/ads.js';
+import { createSendForm } from './form/upload-form.js';
+import { createInactiveForm, createActiveForm } from './form/active-and-inactive-form.js';
 
-createArrayOfAdItems();
+createAds();
+createInactiveForm();
+createActiveForm();
+createSendForm();
