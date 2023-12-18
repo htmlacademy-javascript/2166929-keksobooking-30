@@ -8,20 +8,26 @@ const createDisabledElement = (element, isDisabled) => {
   element.disabled = isDisabled;
 };
 
-const createInactiveForm = () => {
-  form.classList.add('ad-form--disabled');
+const createInactiveSortState = () => {
   mapForm.classList.add('ad-form--disabled');
-  formFieldset.forEach((element) => createDisabledElement(element,true));
   mapFormSelect.forEach((element) => createDisabledElement(element,true));
   mapFormFieldset.disabled = true;
 };
 
-const createActiveForm = () => {
-  form.classList.remove('ad-form--disabled');
+const createInactiveFormState = () => {
+  form.classList.add('ad-form--disabled');
+  formFieldset.forEach((element) => createDisabledElement(element,true));
+};
+
+const createActiveSortState = () => {
   mapForm.classList.remove('ad-form--disabled');
-  formFieldset.forEach((element) => createDisabledElement(element,false));
   mapFormSelect.forEach((element) => createDisabledElement(element,false));
   mapFormFieldset.disabled = false;
 };
 
-export { createInactiveForm, createActiveForm };
+const createActiveFormState = () => {
+  form.classList.remove('ad-form--disabled');
+  formFieldset.forEach((element) => createDisabledElement(element,false));
+};
+
+export { createInactiveSortState, createInactiveFormState, createActiveSortState, createActiveFormState };

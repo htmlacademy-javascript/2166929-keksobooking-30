@@ -1,7 +1,3 @@
-import { createArrayOfAdItems } from './data.js';
-
-const ADS_COUNT = 1;
-
 const TYPES = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -11,8 +7,6 @@ const TYPES = {
 };
 
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
-const map = document.querySelector('#map-canvas');
-const ads = createArrayOfAdItems();
 
 const deleteDefaultElements = (container) => {
   container.innerHTML = '';
@@ -44,11 +38,6 @@ const createStringGeneral = (selector, data, container) => {
   element.textContent = data;
 };
 
-const createStringPrice = (selector, data, container) => {
-  const element = checkElement(selector, data, container);
-  element.textContent = `${ data } ₽/ночь`;
-};
-
 const createStringType = (selector, data, container) => {
   const element = checkElement(selector, data, container);
   element.textContent = TYPES[data];
@@ -73,7 +62,7 @@ const createPhoto = (data, container, item) => {
 const createPhotos = (selector, data, newAd) => {
   const container = newAd.querySelector(`.popup__${ selector }s`);
   const item = container.querySelector(`.popup__${ selector }`);
-  if(!data) {
+  if(data.length === 0 || !data) {
     container.remove();
     return;
   }
@@ -90,7 +79,7 @@ const createFeature = (data, container, item) => {
 const createFeatures = (selector, data, newAd) => {
   const container = newAd.querySelector(`.popup__${ selector }s`);
   const item = container.querySelector(`.popup__${ selector }`);
-  if(!data) {
+  if(data.length === 0 || !data) {
     container.remove();
     return;
   }
@@ -103,9 +92,9 @@ const createAd = (data) => {
   const adElement = data.offer;
 
   createAvatar('avatar', data.author.avatar, newAd);
-  createStringGeneral('title', adElement.title, newAd);
-  createStringGeneral('text--address', adElement.address, newAd);
-  createStringPrice('text--price', adElement.price, newAd);
+  newAd.querySelector('.popup__title').textContent = adElement.title;
+  newAd.querySelector('.popup__text--address').textContent = adElement.address;
+  newAd.querySelector('.popup__text--price').textContent = `${ adElement.price } ₽/ночь`;
   createStringType('type', adElement.type, newAd);
   createStringRooms('text--capacity', adElement.rooms, adElement.guests, newAd);
   createStringTime('text--time', adElement.checkin, adElement.checkout, newAd);
@@ -114,11 +103,7 @@ const createAd = (data) => {
   createPhotos('photo', adElement.photos, newAd);
   createFeatures('feature', adElement.features, newAd);
 
-  map.append(newAd);
+  return newAd;
 };
 
-const createAds = () => {
-  ads.slice(0, ADS_COUNT).forEach((ad) => createAd(ad));
-};
-
-export { createAds };
+export { createAd };

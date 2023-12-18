@@ -22,7 +22,7 @@ const ROOMS_OPTIONS = {
 
 const ERROR_LENGTH_TITLE_MESSAGE = 'Cтрока должна содержать от 30 до 100 символов';
 const ERROR_PRICE_MESSAGE = 'Некорректная цена';
-const ERROR_GUESTS_MESSAGE = 'Некорректное колличество мест';
+const ERROR_GUESTS_MESSAGE = 'Некорректное количество мест';
 
 const form = document.querySelector('.ad-form');
 const inputTitle = document.querySelector('.ad-form #title');
@@ -43,12 +43,12 @@ const isValidLengthTitle = (value) => value.length >= TITLE_LENGTH.min && value.
 
 const isValidPriceCount = (value) => Number(value) >= MIN_PRICE_COUNT[selectType.value] && Number(value) <= MAX_PRICE_COUNT;
 
-const isValidRoomsAndGuests = (value) => ROOMS_OPTIONS[selectRooms.value].includes(value);
+const isValidRoomsAndGuestsCount = (value) => ROOMS_OPTIONS[selectRooms.value].includes(value);
 
-const renderErrorMassages = () => {
+const renderErrorMessages = () => {
   pristine.addValidator(inputTitle, isValidLengthTitle, ERROR_LENGTH_TITLE_MESSAGE, 1, true);
   pristine.addValidator(inputPrice, isValidPriceCount, ERROR_PRICE_MESSAGE, 1, true);
-  pristine.addValidator(selectGuests, isValidRoomsAndGuests, ERROR_GUESTS_MESSAGE, 1, true);
+  pristine.addValidator(selectGuests, isValidRoomsAndGuestsCount, ERROR_GUESTS_MESSAGE, 1, true);
 };
 
 const createValidChangeSelects = () => {
@@ -85,7 +85,7 @@ function onRequiredInputBlur(input) {
   if(input.value.length === 0) {
     resetPristine();
   }
-  renderErrorMassages();
+  renderErrorMessages();
 }
 
-export { renderErrorMassages, createValidChangeSelects, resetValidationForRequiredInput, validatePristine, resetPristine };
+export { renderErrorMessages, createValidChangeSelects, resetValidationForRequiredInput, validatePristine, resetPristine };

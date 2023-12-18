@@ -1,8 +1,6 @@
-import { createAds } from './ads/ads.js';
-import { createSendForm } from './form/upload-form.js';
-import { createInactiveForm, createActiveForm } from './form/active-and-inactive-form.js';
+import { renderMap } from './map/map.js';
+import { createInactiveSortState, createInactiveFormState } from './form/active-and-inactive-form.js';
 
-createAds();
-createInactiveForm();
-createActiveForm();
-createSendForm();
+createInactiveSortState();
+createInactiveFormState();
+renderMap();
