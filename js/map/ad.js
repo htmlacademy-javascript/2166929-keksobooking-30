@@ -61,11 +61,11 @@ const createPhoto = (data, container, item) => {
 
 const createPhotos = (selector, data, newAd) => {
   const container = newAd.querySelector(`.popup__${ selector }s`);
-  const item = container.querySelector(`.popup__${ selector }`);
-  if(data.length === 0 || !data) {
+  if(!data || data.length === 0) {
     container.remove();
     return;
   }
+  const item = container.querySelector(`.popup__${ selector }`);
   deleteDefaultElements(container);
   data.forEach((element) => createPhoto(element, container, item));
 };
@@ -78,11 +78,11 @@ const createFeature = (data, container, item) => {
 
 const createFeatures = (selector, data, newAd) => {
   const container = newAd.querySelector(`.popup__${ selector }s`);
-  const item = container.querySelector(`.popup__${ selector }`);
-  if(data.length === 0 || !data) {
+  if(!data || data.length === 0) {
     container.remove();
     return;
   }
+  const item = container.querySelector(`.popup__${ selector }`);
   deleteDefaultElements(container);
   data.forEach((element) => createFeature(element, container, item));
 };

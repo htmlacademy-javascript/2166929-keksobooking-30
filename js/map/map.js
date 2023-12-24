@@ -1,7 +1,4 @@
-import { createArrayOfAdItems } from './data.js';
 import { createAd } from './ad.js';
-import { createActiveFormState, createActiveSortState } from '../form/active-and-inactive-form.js';
-import { sendForm } from '../form/form.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -30,7 +27,6 @@ const AD_MARKER_OPTIONS = {
   anchorY: 40,
 };
 
-const ads = createArrayOfAdItems();
 const map = L.map('map-canvas');
 
 const createMainMarkerIcon = () => L.icon({
@@ -57,7 +53,7 @@ const addAdMarker = (ad) => L.marker(ad.location, {
 }).addTo(markerGroup)
   .bindPopup(createAd(ad));
 
-const renderAdMarkers = () => {
+const renderAdMarkers = (ads) => {
   ads.forEach((ad) => addAdMarker(ad));
 };
 
@@ -72,12 +68,9 @@ function onMainMarkerMoveend(evt, input) {
 }
 
 const renderMap = () => {
-  map.on('load', () => {
-    createActiveFormState();
-    createActiveSortState();
-    renderAdMarkers();
-    sendForm();
-  }).setView(DEFAULT_MAIN_MARKER_POSITION, MAP_ZOOM_COUNT);
+  map.on('load', (loadingElements) =>
+    loadingElements
+  ).setView(DEFAULT_MAIN_MARKER_POSITION, MAP_ZOOM_COUNT);
 
   L.tileLayer(TILE_LAYER, {
     attribution: COPYRIGHT
@@ -91,4 +84,4 @@ const resetMap = (input) => {
   input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA_COUNT) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA_COUNT) }`;
 };
 
-export { renderMap, renderLatLngMarker, resetMap };
+export { renderMap, renderAdMarkers, renderLatLngMarker, resetMap };
