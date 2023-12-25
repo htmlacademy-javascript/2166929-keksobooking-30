@@ -20,18 +20,18 @@ const ROOMS_OPTIONS = {
   100: ['0']
 };
 
-const ERROR_LENGTH_TITLE_MESSAGE = 'Cтрока должна содержать от 30 до 100 символов';
+const ERROR_LENGTH_TITLE_MESSAGE = `Cтрока должна содержать от ${ TITLE_LENGTH.min } до ${ TITLE_LENGTH.max } символов`;
 const ERROR_PRICE_MESSAGE = 'Некорректная цена';
 const ERROR_GUESTS_MESSAGE = 'Некорректное количество мест';
 
 const form = document.querySelector('.ad-form');
-const inputTitle = document.querySelector('.ad-form #title');
-const inputPrice = document.querySelector('.ad-form #price');
-const selectType = document.querySelector('.ad-form #type');
-const selectRooms = document.querySelector('.ad-form #room_number');
-const selectGuests = document.querySelector('.ad-form #capacity');
-const selectTimeIn = document.querySelector('.ad-form #timein');
-const selectTimeOut = document.querySelector('.ad-form #timeout');
+const inputTitle = document.querySelector('#title');
+const inputPrice = document.querySelector('#price');
+const selectType = document.querySelector('#type');
+const selectRooms = document.querySelector('#room_number');
+const selectGuests = document.querySelector('#capacity');
+const selectTimeIn = document.querySelector('#timein');
+const selectTimeOut = document.querySelector('#timeout');
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -52,25 +52,17 @@ const renderErrorMessages = () => {
 };
 
 const createValidChangeSelects = () => {
-  selectType.addEventListener('change', onSelectTypeChange);
   selectRooms.addEventListener('change', onSelectsRoomsAndGuestsChange);
   selectGuests.addEventListener('change', onSelectsRoomsAndGuestsChange);
   selectTimeIn.addEventListener('change', () => onSelectsTimeChange(selectTimeOut, selectTimeIn));
   selectTimeOut.addEventListener('change', () => onSelectsTimeChange(selectTimeIn, selectTimeOut));
 };
 
-const resetValidationForRequiredInput = () => {
-  inputTitle.addEventListener(('blur'), () => onRequiredInputBlur(inputTitle));
-  inputPrice.addEventListener(('blur'), () => onRequiredInputBlur(inputPrice));
-};
-
 const validatePristine = () => pristine.validate();
 const resetPristine = () => pristine.reset();
 
-function onSelectTypeChange() {
-  inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
-  inputPrice.min = MIN_PRICE_COUNT[selectType.value];
-}
+const validateInputPrice = () => pristine.validate(inputPrice);
+const resetValidateInputPrice = () => pristine.reset(inputPrice);
 
 function onSelectsRoomsAndGuestsChange() {
   pristine.validate(selectRooms);
@@ -81,11 +73,4 @@ function onSelectsTimeChange(firstTimeIndicator, secondTimeIndicator) {
   firstTimeIndicator.value = secondTimeIndicator.value;
 }
 
-function onRequiredInputBlur(input) {
-  if(input.value.length === 0) {
-    resetPristine();
-  }
-  renderErrorMessages();
-}
-
-export { renderErrorMessages, createValidChangeSelects, resetValidationForRequiredInput, validatePristine, resetPristine };
+export { renderErrorMessages, createValidChangeSelects, validateInputPrice, resetValidateInputPrice, validatePristine, resetPristine };
