@@ -3,7 +3,7 @@ import { createServerErrorMessage } from '../map/map-error-message.js';
 import { createFormSuccessMessage, createFormErrorMessage } from '../form/form-error-and-success-messages.js';
 import { renderAdMarkers } from '../map/map.js';
 import { createInactiveSortState, createActiveSortState } from '../form/active-and-inactive-form.js';
-import { createDisabledStateButton, resetForm } from '../form/form.js';
+import { createDisabledButtonState, resetForm } from '../form/form.js';
 
 const getData = async () => {
   try {
@@ -18,14 +18,14 @@ const getData = async () => {
 
 const sendForm = async (formElement) => {
   try {
-    createDisabledStateButton(true);
+    createDisabledButtonState(true);
     await sendServerData(new FormData(formElement));
     resetForm();
     createFormSuccessMessage();
-    createDisabledStateButton(false);
+    createDisabledButtonState(false);
   } catch {
     createFormErrorMessage();
-    createDisabledStateButton(false);
+    createDisabledButtonState(false);
   }
 };
 

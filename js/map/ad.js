@@ -14,7 +14,7 @@ const deleteDefaultElements = (container) => {
 
 const checkElement = (selector, data, container) => {
   const element = container.querySelector(`.popup__${ selector }`);
-  if(!data) {
+  if (!data) {
     element.remove();
   }
   return element;
@@ -22,7 +22,7 @@ const checkElement = (selector, data, container) => {
 
 const checkElements = (selector, firstData, secondData, container) => {
   const element = container.querySelector(`.popup__${ selector }`);
-  if(!firstData || !secondData) {
+  if (!firstData || !secondData) {
     element.remove();
   }
   return element;
@@ -59,32 +59,28 @@ const createPhoto = (data, container, item) => {
   container.append(newImage);
 };
 
-const createPhotos = (selector, data, newAd) => {
-  const container = newAd.querySelector(`.popup__${ selector }s`);
-  if(!data || data.length === 0) {
-    container.remove();
-    return;
-  }
-  const item = container.querySelector(`.popup__${ selector }`);
-  deleteDefaultElements(container);
-  data.forEach((element) => createPhoto(element, container, item));
-};
-
 const createFeature = (data, container, item) => {
   const newFeature = item.cloneNode(true);
   newFeature.classList.replace('popup__feature--wifi', `popup__feature--${ data }`);
   container.append(newFeature);
 };
 
-const createFeatures = (selector, data, newAd) => {
+const createItemsList = (selector, data, array, newAd) => {
   const container = newAd.querySelector(`.popup__${ selector }s`);
-  if(!data || data.length === 0) {
+  if (!array) {
     container.remove();
     return;
   }
   const item = container.querySelector(`.popup__${ selector }`);
   deleteDefaultElements(container);
-  data.forEach((element) => createFeature(element, container, item));
+
+  if (array === data.photos) {
+    array.forEach((element) => createPhoto(element, container, item));
+  }
+
+  if (array === data.features) {
+    array.forEach((element) => createFeature(element, container, item));
+  }
 };
 
 const createAd = (data) => {
@@ -99,9 +95,8 @@ const createAd = (data) => {
   createStringRooms('text--capacity', adElement.rooms, adElement.guests, newAd);
   createStringTime('text--time', adElement.checkin, adElement.checkout, newAd);
   createStringGeneral('description', adElement.description, newAd);
-
-  createPhotos('photo', adElement.photos, newAd);
-  createFeatures('feature', adElement.features, newAd);
+  createItemsList('photo', adElement, adElement.photos, newAd);
+  createItemsList('feature', adElement, adElement.features, newAd);
 
   return newAd;
 };

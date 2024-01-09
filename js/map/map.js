@@ -1,4 +1,6 @@
 import { createAd } from './ad.js';
+import { createSortAds, resetFilters } from './sort-ads.js';
+import { debounce } from '../util/util.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -27,7 +29,11 @@ const AD_MARKER_OPTIONS = {
   anchorY: 40,
 };
 
+const filter = document.querySelector('.map__filters');
+
 const map = L.map('map-canvas');
+
+let dataAds = 0;
 
 const createMainMarkerIcon = () => L.icon({
   iconUrl: MAIN_MARKER_OPTIONS.url,
@@ -47,14 +53,22 @@ const createAdMarker = () => L.icon({
 });
 
 const markerGroup = L.layerGroup().addTo(map);
+const removeLayer = () => markerGroup.clearLayers();
 
 const addAdMarker = (ad) => L.marker(ad.location, {
   icon: createAdMarker(),
 }).addTo(markerGroup)
   .bindPopup(createAd(ad));
 
+const onFilterChange = debounce((ads) => {
+  removeLayer();
+  createSortAds(ads).slice(0, 10).forEach((ad) => addAdMarker(ad));
+});
+
 const renderAdMarkers = (ads) => {
-  ads.forEach((ad) => addAdMarker(ad));
+  dataAds = ads;
+  dataAds.slice(0, 10).forEach((ad) => addAdMarker(ad));
+  filter.addEventListener('change', () => onFilterChange(ads));
 };
 
 const renderLatLngMarker = (input) => {
@@ -82,6 +96,12 @@ const resetMap = (input) => {
   mainMarker.setLatLng(DEFAULT_MAIN_MARKER_POSITION);
   map.setView(DEFAULT_MAIN_MARKER_POSITION, MAP_ZOOM_COUNT);
   input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA_COUNT) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA_COUNT) }`;
+
+  if (dataAds !== 0) {
+    removeLayer();
+    dataAds.slice(0, 10).forEach((ad) => addAdMarker(ad));
+    resetFilters();
+  }
 };
 
 export { renderMap, renderAdMarkers, renderLatLngMarker, resetMap };
