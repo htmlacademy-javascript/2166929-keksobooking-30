@@ -17,14 +17,14 @@ const closeMessage = () => {
   document.removeEventListener('click', onDocumentAndButtonClick);
 };
 
-function onDocumentKeydown(evt) {
+function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeMessage();
   }
 }
 
-function onDocumentAndButtonClick() {
+function onDocumentAndButtonClick () {
   closeMessage();
 }
 

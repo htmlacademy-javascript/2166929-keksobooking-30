@@ -1,7 +1,8 @@
-import { renderErrorMessages, createValidChangeSelects, validatePristine, resetPristine } from './form-validate.js';
+import { renderErrorMessages, createValidChangeSelects, validatePristine, validateImage, resetPristine } from './form-validate.js';
 import { renderLatLngMarker, resetMap } from '../map/map.js';
 import { createSlider, updateSliderOptions, resetSlider } from './form-slider.js';
 import { sendForm } from '../api/get-and-send-data.js';
+import { createPreviewImage, resetPreviewImage } from './upload-photos.js';
 
 const MIN_PRICE_COUNT = {
   bungalow: 0,
@@ -18,14 +19,16 @@ const selectType = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
 const submitButton = document.querySelector('.ad-form__submit');
 
+const onSelectTypeChange = () => {
+  inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
+};
+
 const createPriceOptions = () => {
-  const defaultCount = MIN_PRICE_COUNT[selectType.value];
-  inputPrice.placeholder = defaultCount;
-  inputPrice.min = defaultCount;
+  inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
   selectType.addEventListener('change', onSelectTypeChange);
 };
 
-const createDisabledStateButton = (isDisabled) => {
+const createDisabledButtonState = (isDisabled) => {
   submitButton.disabled = isDisabled;
 };
 
@@ -34,35 +37,32 @@ const resetForm = () => {
   resetSlider();
   form.reset();
   resetMap(inputAddress);
+  resetPreviewImage();
+  createPriceOptions();
 };
 
-function onFormSubmit(evt) {
+function onFormSubmit (evt) {
   evt.preventDefault();
-  if(validatePristine()) {
+  if (validatePristine() && validateImage()) {
     sendForm(evt.target);
   }
 }
 
-function onResetButtonClick(evt) {
+function onResetButtonClick (evt) {
   evt.preventDefault();
   resetForm();
 }
 
-function onSelectTypeChange() {
-  const newPlaceholder = MIN_PRICE_COUNT[selectType.value];
-  inputPrice.placeholder = newPlaceholder;
-  inputPrice.min = newPlaceholder;
-}
-
 const initForm = () => {
+  createPreviewImage();
   createPriceOptions();
   renderErrorMessages();
   createValidChangeSelects();
   renderLatLngMarker(inputAddress);
   createSlider();
   updateSliderOptions();
-  resetButton.addEventListener(('click'), onResetButtonClick);
-  form.addEventListener(('submit'), onFormSubmit);
+  resetButton.addEventListener('click', onResetButtonClick);
+  form.addEventListener('submit', onFormSubmit);
 };
 
-export { initForm, createDisabledStateButton, resetForm };
+export { initForm, createDisabledButtonState, resetForm };

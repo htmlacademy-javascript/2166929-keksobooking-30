@@ -1,9 +1,11 @@
-import { validateInputPrice } from './form-validate.js';
+import { validatePristine } from './form-validate.js';
 
 const PRICE_COUNT = {
   min: 0,
   max: 100000
 };
+
+const PRICE_COUNT_STEP = 1;
 
 const formSlider = document.querySelector('.ad-form__slider');
 const inputPrice = document.querySelector('#price');
@@ -15,7 +17,7 @@ const createSlider = () => {
       max: PRICE_COUNT.max,
     },
     start: PRICE_COUNT.min,
-    step: 1,
+    step: PRICE_COUNT_STEP,
     connect: 'lower',
     format: {
       to: function (value) {
@@ -29,20 +31,16 @@ const createSlider = () => {
 
   formSlider.noUiSlider.on('slide', () => {
     inputPrice.value = formSlider.noUiSlider.get();
-    validateInputPrice();
+    validatePristine(inputPrice);
   });
 };
 
-const updateSliderOptions = () => {
-  inputPrice.addEventListener('input', onInputPriceInput);
-};
+const updateSliderOptions = () => inputPrice.addEventListener('input', onInputPriceInput);
 
-function onInputPriceInput() {
+const resetSlider = () => formSlider.noUiSlider.reset();
+
+function onInputPriceInput () {
   formSlider.noUiSlider.set(inputPrice.value);
 }
-
-const resetSlider = () => {
-  formSlider.noUiSlider.reset();
-};
 
 export { createSlider, updateSliderOptions, resetSlider };
