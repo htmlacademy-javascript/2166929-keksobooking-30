@@ -9,12 +9,7 @@ const filterRooms = document.querySelector('#housing-rooms');
 const filterGuests = document.querySelector('#housing-guests');
 const filterPrice = document.querySelector('#housing-price');
 
-const createSort = (element, select) => {
-  if (select.value !== 'any') {
-    return String(element) === select.value;
-  }
-  return true;
-};
+const createSort = (element, select) => select.value === 'any' || String(element) === select.value;
 
 const createSortPrice = (element, select) => {
   if (select.value === 'middle') {
@@ -33,10 +28,15 @@ const createSortPrice = (element, select) => {
 };
 
 const createSortFeatures = (array) => {
-  const inputFeatureChecked = document.querySelectorAll('input[name="features"]:checked');
-  if (!array || array.length === 0) {
+  const inputFeatureChecked = document.querySelectorAll('.map__checkbox:checked');
+  if (inputFeatureChecked.length === 0) {
+    return true;
+  }
+
+  if (!array) {
     return false;
   }
+
   return Array.from(inputFeatureChecked).every((object) => array.includes(object.value));
 };
 
@@ -48,8 +48,6 @@ const createSortAds = (ads) => ads.filter((ad) =>
   && createSortFeatures(ad.offer.features)
 );
 
-const resetFilters = () => {
-  filters.reset();
-};
+const resetFilters = () => filters.reset();
 
 export { createSortAds, resetFilters };

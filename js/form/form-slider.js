@@ -5,7 +5,7 @@ const PRICE_COUNT = {
   max: 100000
 };
 
-const PRICE_COUNT_STEP = 1;
+const PRICE_STEP_COUNT = 1;
 
 const formSlider = document.querySelector('.ad-form__slider');
 const inputPrice = document.querySelector('#price');
@@ -17,7 +17,7 @@ const createSlider = () => {
       max: PRICE_COUNT.max,
     },
     start: PRICE_COUNT.min,
-    step: PRICE_COUNT_STEP,
+    step: PRICE_STEP_COUNT,
     connect: 'lower',
     format: {
       to: function (value) {

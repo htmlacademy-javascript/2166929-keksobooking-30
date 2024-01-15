@@ -6,7 +6,8 @@ const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const MAP_ZOOM_COUNT = 13;
-const NUMBERS_AFTER_COMMA_COUNT = 5;
+const NUMBERS_AFTER_COMMA = 5;
+const MAX_ADS_COUNT = 10;
 
 const DEFAULT_MAIN_MARKER_POSITION = {
   lat: 35.68306,
@@ -33,7 +34,7 @@ const filter = document.querySelector('.map__filters');
 
 const map = L.map('map-canvas');
 
-let dataAds = 0;
+let dataAds = [];
 
 const createMainMarkerIcon = () => L.icon({
   iconUrl: MAIN_MARKER_OPTIONS.url,
@@ -53,6 +54,7 @@ const createAdMarker = () => L.icon({
 });
 
 const markerGroup = L.layerGroup().addTo(map);
+
 const removeLayer = () => markerGroup.clearLayers();
 
 const addAdMarker = (ad) => L.marker(ad.location, {
@@ -60,25 +62,27 @@ const addAdMarker = (ad) => L.marker(ad.location, {
 }).addTo(markerGroup)
   .bindPopup(createAd(ad));
 
+const createAdMarkers = (ads) => ads.slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
+
 const onFilterChange = debounce((ads) => {
   removeLayer();
-  createSortAds(ads).slice(0, 10).forEach((ad) => addAdMarker(ad));
+  createSortAds(ads).slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
 });
 
 const renderAdMarkers = (ads) => {
   dataAds = ads;
-  dataAds.slice(0, 10).forEach((ad) => addAdMarker(ad));
+  createAdMarkers(dataAds);
   filter.addEventListener('change', () => onFilterChange(ads));
 };
 
 const renderLatLngMarker = (input) => {
-  input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA_COUNT) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA_COUNT) }`;
+  input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
   mainMarker.on('moveend', (evt) => onMainMarkerMoveend(evt, input));
 };
 
 function onMainMarkerMoveend(evt, input) {
   const newPosition = evt.target.getLatLng();
-  input.value = `${ newPosition.lat.toFixed(NUMBERS_AFTER_COMMA_COUNT) }, ${ newPosition.lng.toFixed(NUMBERS_AFTER_COMMA_COUNT) }`;
+  input.value = `${ newPosition.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ newPosition.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
 }
 
 const renderMap = () => {
@@ -95,11 +99,11 @@ const resetMap = (input) => {
   map.closePopup();
   mainMarker.setLatLng(DEFAULT_MAIN_MARKER_POSITION);
   map.setView(DEFAULT_MAIN_MARKER_POSITION, MAP_ZOOM_COUNT);
-  input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA_COUNT) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA_COUNT) }`;
+  input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
 
-  if (dataAds !== 0) {
+  if (dataAds.length !== 0) {
     removeLayer();
-    dataAds.slice(0, 10).forEach((ad) => addAdMarker(ad));
+    createAdMarkers(dataAds);
     resetFilters();
   }
 };

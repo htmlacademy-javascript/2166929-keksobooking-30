@@ -1,6 +1,16 @@
-import { isValidType, createErrorMassageForImage, removeErrorMassageForImage } from './form-validate.js';
+import { isValidType, createErrorMessageForImage, removeErrorMessageForImage } from './form-validate.js';
 
 const DEFAULT_IMAGE_SRC = 'img/muffin-grey.svg';
+
+const DEFAULT_IMAGE_OPTIONS = {
+  width: '40',
+  height: '44',
+};
+
+const NEW_IMAGE_OPTIONS = {
+  width: '70',
+  height: '70',
+};
 
 const IMAGE_ALT = {
   avatar: 'Аватар пользователя',
@@ -13,12 +23,11 @@ const roomPhotoContainer = document.querySelector('.ad-form__photo');
 
 const updatePreviewOptions = (container, file, alt) => {
   container.innerHTML = '';
-  container.style.padding = '0';
   const image = document.createElement('img');
   image.src = URL.createObjectURL(file);
   image.alt = alt;
-  image.width = '70';
-  image.height = '70';
+  image.width = NEW_IMAGE_OPTIONS.width;
+  image.height = NEW_IMAGE_OPTIONS.height;
   container.appendChild(image);
 };
 
@@ -27,15 +36,15 @@ const uploadImage = (evt, selector, container, alt) => {
 
   if (file && isValidType(file)) {
     updatePreviewOptions(container, file, alt);
-    removeErrorMassageForImage(selector);
+    removeErrorMessageForImage(selector);
+    container.classList.remove('error-massage-container');
     return;
   }
 
   if (file && !isValidType(file) && !document.querySelector(`.${ selector } .error-massage`)) {
-    createErrorMassageForImage(selector);
+    createErrorMessageForImage(selector);
     container.innerHTML = '';
-    container.style.padding = '0 15px';
-    container.style.flexShrink = '0';
+    container.classList.add('error-massage-container');
   }
 };
 
@@ -51,17 +60,20 @@ function onFormChange (evt) {
   }
 }
 
+const cleanPreviewImage = (container, selector, error) => {
+  removeErrorMessageForImage(selector);
+  container.classList.remove(error);
+  container.innerHTML = '';
+};
+
 const resetPreviewImage = () => {
-  removeErrorMassageForImage('ad-form-header');
-  removeErrorMassageForImage('ad-form__photo-container');
-  roomPhotoContainer.innerHTML = '';
-  avatarContainer.innerHTML = '';
-  avatarContainer.style.padding = '0 15px';
+  cleanPreviewImage(roomPhotoContainer, 'ad-form-header', 'error-massage-container');
+  cleanPreviewImage(avatarContainer, 'ad-form__photo-container', 'error-massage-container');
   const image = document.createElement('img');
   image.src = DEFAULT_IMAGE_SRC;
   image.alt = IMAGE_ALT.avatar;
-  image.width = '40';
-  image.height = '44';
+  image.width = DEFAULT_IMAGE_OPTIONS.width;
+  image.height = DEFAULT_IMAGE_OPTIONS.height;
   avatarContainer.appendChild(image);
 };
 

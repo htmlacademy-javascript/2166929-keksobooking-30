@@ -61,28 +61,22 @@ const renderErrorMessages = () => {
   pristine.addValidator(selectGuests, isValidRoomsAndGuestsCount, ERROR_GUESTS_MESSAGE, 1, true);
 };
 
-const createErrorMassageForImage = (selector) => {
+const createErrorMessageForImage = (selector) => {
   const container = document.createElement('div');
   container.classList.add(`${ ERROR_IMAGE_MASSAGE_SELECT }`);
   container.textContent = ERROR_IMAGE_MASSAGE;
-  container.style.color = 'red';
-  container.style.fontSize = '12px';
-  container.style.padding = '4px';
-  container.style.width = '100%';
   document.querySelector(`.${ selector }`).appendChild(container);
 };
 
-const removeErrorMassageForImage = (selector) => {
-  const errorMassage = document.querySelector(`.${ selector } .${ ERROR_IMAGE_MASSAGE_SELECT }`);
+const removeErrorMessageForImage = (selector) => {
+  const errorMessage = document.querySelector(`.${ selector } .${ ERROR_IMAGE_MASSAGE_SELECT }`);
 
-  if(errorMassage) {
-    errorMassage.remove();
+  if(errorMessage) {
+    errorMessage.remove();
   }
 };
 
-const createValidChangeSelects = () => {
-  form.addEventListener('change', onFormChange);
-};
+const createValidChangeSelects = () => form.addEventListener('change', onFormChange);
 
 const validatePristine = (input) => pristine.validate(input);
 const validateImage = () => !document.querySelector(`.${ ERROR_IMAGE_MASSAGE_SELECT }`);
@@ -111,4 +105,4 @@ function onFormChange (evt) {
   }
 }
 
-export { renderErrorMessages, createErrorMassageForImage, createValidChangeSelects, isValidType, validatePristine, validateImage, resetPristine, removeErrorMassageForImage };
+export { renderErrorMessages, createErrorMessageForImage, createValidChangeSelects, isValidType, validatePristine, validateImage, resetPristine, removeErrorMessageForImage };
