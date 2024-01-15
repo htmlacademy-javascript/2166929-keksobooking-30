@@ -43,6 +43,7 @@ const resetForm = () => {
 
 function onFormSubmit (evt) {
   evt.preventDefault();
+
   if (validatePristine() && validateImage()) {
     sendForm(evt.target);
   }

@@ -8,14 +8,14 @@ const createDisabledElement = (element, isDisabled) => {
   element.disabled = isDisabled;
 };
 
-const createInactiveState = (form, FormElement) => {
+const createInactiveState = (form, formElement) => {
   form.classList.add('ad-form--disabled');
-  FormElement.forEach((element) => createDisabledElement(element, true));
+  formElement.forEach((element) => createDisabledElement(element, true));
 };
 
-const createActiveState = (form, FormElement) => {
+const createActiveState = (form, formElement) => {
   form.classList.remove('ad-form--disabled');
-  FormElement.forEach((element) => createDisabledElement(element, false));
+  formElement.forEach((element) => createDisabledElement(element, false));
 };
 
 const createInactiveSortState = () => {
@@ -23,17 +23,13 @@ const createInactiveSortState = () => {
   sortFormFieldset.disabled = true;
 };
 
-const createInactiveFormState = () => {
-  createInactiveState(formForSend, formForSendFieldset);
-};
+const createInactiveFormState = () => createInactiveState(formForSend, formForSendFieldset);
 
 const createActiveSortState = () => {
   createActiveState(sortForm, sortFormSelect);
   sortFormFieldset.disabled = false;
 };
 
-const createActiveFormState = () => {
-  createActiveState(formForSend, formForSendFieldset);
-};
+const createActiveFormState = () => createActiveState(formForSend, formForSendFieldset);
 
 export { createInactiveSortState, createInactiveFormState, createActiveSortState, createActiveFormState };

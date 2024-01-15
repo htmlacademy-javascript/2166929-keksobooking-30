@@ -8,10 +8,6 @@ const TYPES = {
 
 const adTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-const deleteDefaultElements = (container) => {
-  container.innerHTML = '';
-};
-
 const checkElement = (selector, data, container) => {
   const element = container.querySelector(`.popup__${ selector }`);
   if (!data) {
@@ -22,9 +18,11 @@ const checkElement = (selector, data, container) => {
 
 const checkElements = (selector, firstData, secondData, container) => {
   const element = container.querySelector(`.popup__${ selector }`);
+
   if (!firstData || !secondData) {
     element.remove();
   }
+
   return element;
 };
 
@@ -71,8 +69,9 @@ const createItemsList = (selector, data, array, newAd) => {
     container.remove();
     return;
   }
+
   const item = container.querySelector(`.popup__${ selector }`);
-  deleteDefaultElements(container);
+  container.innerHTML = '';
 
   if (array === data.photos) {
     array.forEach((element) => createPhoto(element, container, item));

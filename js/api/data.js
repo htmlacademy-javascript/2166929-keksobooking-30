@@ -3,9 +3,11 @@ const URL_FOR_GET_DATA = `${ URL_GENERAL }data`;
 
 const createServerData = async (url, method, body) => {
   const response = await fetch(url, { method, body });
+
   if (!response.ok) {
     throw new Error();
   }
+
   return response.json();
 };
 
