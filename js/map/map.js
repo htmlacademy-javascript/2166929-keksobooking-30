@@ -1,5 +1,5 @@
 import { createAd } from './ad.js';
-import { createSortAds, resetFilters } from './sort-ads.js';
+import { createFilteredAds, resetFilters } from './filter-ads.js';
 import { debounce } from '../util/util.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -66,7 +66,7 @@ const createAdMarkers = (ads) => ads.slice(0, MAX_ADS_COUNT).forEach((ad) => add
 
 const onFilterChange = debounce((ads) => {
   removeLayer();
-  createSortAds(ads).slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
+  createFilteredAds(ads).slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
 });
 
 const renderAdMarkers = (ads) => {
