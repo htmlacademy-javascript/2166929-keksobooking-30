@@ -17,7 +17,6 @@ const inputAddress = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
 const selectType = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
-const submitButton = document.querySelector('.ad-form__submit');
 
 const onSelectTypeChange = () => {
   inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
@@ -26,10 +25,6 @@ const onSelectTypeChange = () => {
 const createPriceOptions = () => {
   inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
   selectType.addEventListener('change', onSelectTypeChange);
-};
-
-const createDisabledButtonState = (isDisabled) => {
-  submitButton.disabled = isDisabled;
 };
 
 const resetForm = () => {
@@ -66,4 +61,4 @@ const initForm = () => {
   form.addEventListener('submit', onFormSubmit);
 };
 
-export { initForm, createDisabledButtonState, resetForm };
+export { initForm, resetForm };

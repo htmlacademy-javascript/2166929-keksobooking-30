@@ -1,35 +1,33 @@
+import { disablesElement } from '../util/util.js';
+
 const formForSend = document.querySelector('.ad-form');
 const formForSendFieldset = document.querySelectorAll('.ad-form fieldset');
-const sortForm = document.querySelector('.map__filters');
-const sortFormFieldset = document.querySelector('.map__filters fieldset');
-const sortFormSelect = document.querySelectorAll('.map__filters select');
+const filerForm = document.querySelector('.map__filters');
+const filerFormFieldset = document.querySelector('.map__filters fieldset');
+const filerFormSelect = document.querySelectorAll('.map__filters select');
 
-const createDisabledElement = (element, isDisabled) => {
-  element.disabled = isDisabled;
-};
-
-const createInactiveState = (form, formElement) => {
+const inactivatesForm = (form, formElement) => {
   form.classList.add('ad-form--disabled');
-  formElement.forEach((element) => createDisabledElement(element, true));
+  formElement.forEach((element) => disablesElement(element, true));
 };
 
-const createActiveState = (form, formElement) => {
+const activatesForm = (form, formElement) => {
   form.classList.remove('ad-form--disabled');
-  formElement.forEach((element) => createDisabledElement(element, false));
+  formElement.forEach((element) => disablesElement(element, false));
 };
 
-const createInactiveSortState = () => {
-  createInactiveState(sortForm, sortFormSelect);
-  sortFormFieldset.disabled = true;
+const inactivatesFilterForm = () => {
+  inactivatesForm(filerForm, filerFormSelect);
+  disablesElement(filerFormFieldset, true);
 };
 
-const createInactiveFormState = () => createInactiveState(formForSend, formForSendFieldset);
+const inactivatesUploadForm = () => inactivatesForm(formForSend, formForSendFieldset);
 
-const createActiveSortState = () => {
-  createActiveState(sortForm, sortFormSelect);
-  sortFormFieldset.disabled = false;
+const activatesFilterForm = () => {
+  activatesForm(filerForm, filerFormSelect);
+  disablesElement(filerFormFieldset, false);
 };
 
-const createActiveFormState = () => createActiveState(formForSend, formForSendFieldset);
+const activatesUploadForm = () => activatesForm(formForSend, formForSendFieldset);
 
-export { createInactiveSortState, createInactiveFormState, createActiveSortState, createActiveFormState };
+export { inactivatesFilterForm, inactivatesUploadForm, activatesFilterForm, activatesUploadForm };
