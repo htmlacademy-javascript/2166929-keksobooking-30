@@ -1,6 +1,6 @@
 import { createAd } from './ad.js';
 import { createFilteredAds, resetFilters } from './filter-ads.js';
-import { debounce } from '../util/util.js';
+import { removeBounce } from '../util/util.js';
 
 const TILE_LAYER = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -64,7 +64,7 @@ const addAdMarker = (ad) => L.marker(ad.location, {
 
 const createAdMarkers = (ads) => ads.slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
 
-const onFilterChange = debounce((ads) => {
+const onFilterChange = removeBounce((ads) => {
   removeLayer();
   createFilteredAds(ads).slice(0, MAX_ADS_COUNT).forEach((ad) => addAdMarker(ad));
 });
@@ -75,15 +75,15 @@ const renderAdMarkers = (ads) => {
   filter.addEventListener('change', () => onFilterChange(ads));
 };
 
+const onMainMarkerMoveend = (evt, input) => {
+  const newPosition = evt.target.getLatLng();
+  input.value = `${ newPosition.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ newPosition.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
+};
+
 const renderLatLngMarker = (input) => {
   input.value = `${ DEFAULT_MAIN_MARKER_POSITION.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ DEFAULT_MAIN_MARKER_POSITION.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
   mainMarker.on('moveend', (evt) => onMainMarkerMoveend(evt, input));
 };
-
-function onMainMarkerMoveend(evt, input) {
-  const newPosition = evt.target.getLatLng();
-  input.value = `${ newPosition.lat.toFixed(NUMBERS_AFTER_COMMA) }, ${ newPosition.lng.toFixed(NUMBERS_AFTER_COMMA) }`;
-}
 
 const renderMap = () => {
   map.on('load', (loadingElements) =>

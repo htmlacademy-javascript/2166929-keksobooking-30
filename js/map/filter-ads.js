@@ -4,10 +4,10 @@ const PRICE_COUNT = {
 };
 
 const filters = document.querySelector('.map__filters');
-const filterType = document.querySelector('#housing-type');
-const filterRooms = document.querySelector('#housing-rooms');
-const filterGuests = document.querySelector('#housing-guests');
-const filterPrice = document.querySelector('#housing-price');
+const filterType = filters.querySelector('#housing-type');
+const filterRooms = filters.querySelector('#housing-rooms');
+const filterGuests = filters.querySelector('#housing-guests');
+const filterPrice = filters.querySelector('#housing-price');
 
 const filterAds = (element, select) => select.value === 'any' || String(element) === select.value;
 

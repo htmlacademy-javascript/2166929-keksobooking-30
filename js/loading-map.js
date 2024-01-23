@@ -1,10 +1,10 @@
 import { getData } from './api/get-and-send-data.js';
-import { activatesUploadForm } from './form/active-and-inactive-form.js';
-import { initForm } from './form/form.js';
+import { activateUploadForm } from './form/active-and-inactive-form.js';
+import { loadingForm } from './form/form.js';
 
 const loadingMap = () => {
-  initForm();
-  activatesUploadForm();
+  loadingForm();
+  activateUploadForm();
   getData();
 };
 

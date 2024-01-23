@@ -35,12 +35,12 @@ const createSlider = () => {
   });
 };
 
+const onInputPriceInput = () => {
+  formSlider.noUiSlider.set(inputPrice.value);
+};
+
 const updateSliderOptions = () => inputPrice.addEventListener('input', onInputPriceInput);
 
 const resetSlider = () => formSlider.noUiSlider.reset();
-
-function onInputPriceInput () {
-  formSlider.noUiSlider.set(inputPrice.value);
-}
 
 export { createSlider, updateSliderOptions, resetSlider };
