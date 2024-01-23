@@ -2,11 +2,11 @@ const TIMER_FOR_FILTER = 500;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const disablesElement = (element, isDisabled) => {
+const disableElement = (element, isDisabled) => {
   element.disabled = isDisabled;
 };
 
-const debounce = (callback, timeoutDelay = TIMER_FOR_FILTER) => {
+const removeBounce = (callback, timeoutDelay = TIMER_FOR_FILTER) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
@@ -14,4 +14,4 @@ const debounce = (callback, timeoutDelay = TIMER_FOR_FILTER) => {
   };
 };
 
-export { isEscapeKey, disablesElement, debounce };
+export { isEscapeKey, disableElement, removeBounce };

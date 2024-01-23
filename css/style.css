@@ -667,7 +667,7 @@ fieldset {
           box-shadow: 0 0 2px 2px #ff6547;
 }
 
-.error-massage-container {
+.error-message-container {
   background-color: #ff6547;
 }
 
@@ -678,7 +678,7 @@ fieldset {
 }
 
 .ad-form__element--invalid .text-help,
-.error-massage {
+.error-message {
   color: red;
   font-size: 12px;
   padding: 4px;

@@ -1,33 +1,33 @@
-import { disablesElement } from '../util/util.js';
+import { disableElement } from '../util/util.js';
 
 const formForSend = document.querySelector('.ad-form');
-const formForSendFieldset = document.querySelectorAll('.ad-form fieldset');
+const formForSendFieldset = formForSend.querySelectorAll('fieldset');
 const filerForm = document.querySelector('.map__filters');
-const filerFormFieldset = document.querySelector('.map__filters fieldset');
-const filerFormSelect = document.querySelectorAll('.map__filters select');
+const filerFormFieldset = filerForm.querySelector('fieldset');
+const filerFormSelect = filerForm.querySelectorAll('select');
 
-const inactivatesForm = (form, formElement) => {
+const inactivateForm = (form, formElement) => {
   form.classList.add('ad-form--disabled');
-  formElement.forEach((element) => disablesElement(element, true));
+  formElement.forEach((element) => disableElement(element, true));
 };
 
-const activatesForm = (form, formElement) => {
+const activateForm = (form, formElement) => {
   form.classList.remove('ad-form--disabled');
-  formElement.forEach((element) => disablesElement(element, false));
+  formElement.forEach((element) => disableElement(element, false));
 };
 
-const inactivatesFilterForm = () => {
-  inactivatesForm(filerForm, filerFormSelect);
-  disablesElement(filerFormFieldset, true);
+const inactivateFilterForm = () => {
+  inactivateForm(filerForm, filerFormSelect);
+  disableElement(filerFormFieldset, true);
 };
 
-const inactivatesUploadForm = () => inactivatesForm(formForSend, formForSendFieldset);
+const inactivateUploadForm = () => inactivateForm(formForSend, formForSendFieldset);
 
-const activatesFilterForm = () => {
-  activatesForm(filerForm, filerFormSelect);
-  disablesElement(filerFormFieldset, false);
+const activateFilterForm = () => {
+  activateForm(filerForm, filerFormSelect);
+  disableElement(filerFormFieldset, false);
 };
 
-const activatesUploadForm = () => activatesForm(formForSend, formForSendFieldset);
+const activateUploadForm = () => activateForm(formForSend, formForSendFieldset);
 
-export { inactivatesFilterForm, inactivatesUploadForm, activatesFilterForm, activatesUploadForm };
+export { inactivateFilterForm, inactivateUploadForm, activateFilterForm, activateUploadForm };

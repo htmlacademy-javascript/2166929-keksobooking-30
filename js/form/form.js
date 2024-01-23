@@ -13,10 +13,10 @@ const MIN_PRICE_COUNT = {
 };
 
 const form = document.querySelector('.ad-form');
-const inputAddress = document.querySelector('#address');
-const resetButton = document.querySelector('.ad-form__reset');
-const selectType = document.querySelector('#type');
-const inputPrice = document.querySelector('#price');
+const inputAddress = form.querySelector('#address');
+const resetButton = form.querySelector('.ad-form__reset');
+const selectType = form.querySelector('#type');
+const inputPrice = form.querySelector('#price');
 
 const onSelectTypeChange = () => {
   inputPrice.placeholder = MIN_PRICE_COUNT[selectType.value];
@@ -36,20 +36,20 @@ const resetForm = () => {
   createPriceOptions();
 };
 
-function onFormSubmit (evt) {
+const onFormSubmit = (evt) => {
   evt.preventDefault();
 
   if (validatePristine() && validateImage()) {
     sendForm(evt.target);
   }
-}
+};
 
-function onResetButtonClick (evt) {
+const onResetButtonClick = (evt) => {
   evt.preventDefault();
   resetForm();
-}
+};
 
-const initForm = () => {
+const loadingForm = () => {
   createPreviewImage();
   createPriceOptions();
   renderErrorMessages();
@@ -61,4 +61,4 @@ const initForm = () => {
   form.addEventListener('submit', onFormSubmit);
 };
 
-export { initForm, resetForm };
+export { loadingForm, resetForm };
